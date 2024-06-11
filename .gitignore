@@ -1,7 +1,9 @@
 *.class
-target/*
 .idea
 GraphCore.iml
 output.svg
 saved.png
 log.txt
+target/*
+/editor/target/*
+/nodecore/target/*

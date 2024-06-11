@@ -1,5 +1,10 @@
 package com.marginallyclever.donatello.nodes.images.blend;
 
+import com.marginallyclever.nodegraphcore.DockReceiving;
+import com.marginallyclever.nodegraphcore.DockShipping;
+import com.marginallyclever.nodegraphcore.Node;
+import com.marginallyclever.nodegraphcore.Packet;
+
 import java.awt.image.BufferedImage;
 
 /**
@@ -30,8 +35,8 @@ public class BlendDifference extends Node {
         BufferedImage A = a.getValue();
         BufferedImage B = b.getValue();
 
-        int w = (int)Math.min(A.getWidth(),B.getWidth());
-        int h = (int)Math.min(A.getHeight(),B.getHeight());
+        int w = Math.min(A.getWidth(), B.getWidth());
+        int h = Math.min(A.getHeight(), B.getHeight());
         BufferedImage C = new BufferedImage(w,h,A.getType());
 
         for(int y=0;y<h;++y) {

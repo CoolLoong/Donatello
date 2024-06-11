@@ -9,8 +9,7 @@ import com.marginallyclever.donatello.contextsensitivetools.RectangleSelectTool;
 import com.marginallyclever.donatello.graphview.GraphViewListener;
 import com.marginallyclever.donatello.graphview.GraphViewPanel;
 import com.marginallyclever.donatello.graphview.GraphViewSettings;
-import com.marginallyclever.nodegraphcore.Graph;
-import com.marginallyclever.nodegraphcore.Node;
+import com.marginallyclever.nodegraphcore.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

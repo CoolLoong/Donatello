@@ -10,14 +10,20 @@ import java.util.List;
  * @author Dan Royer
  */
 public class Bezier {
-	private int recursionLimit = 8;
-	private double curveAngleToleranceEpsilon =0.01;
-	private double angleTolerance = 0;
-	private double cuspLimit = 0;
+    private final int recursionLimit = 8;
+    private final double curveAngleToleranceEpsilon = 0.01;
+    private final double angleTolerance = 0;
+    private final double cuspLimit = 0;
 	private static final double FLOAT_EPSILON=1.19209290e-7;
-    
-	private double x0,x1,x2,x3;
-	private double y0,y1,y2,y3;
+
+    private final double x0;
+    private final double x1;
+    private final double x2;
+    private final double x3;
+    private final double y0;
+    private final double y1;
+    private final double y2;
+    private final double y3;
 
     /**
      * Default constructor that takes four control points.

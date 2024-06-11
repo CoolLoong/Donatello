@@ -58,8 +58,7 @@ public class EditNodePanel extends JPanel {
     }
 
     private void addVariableField(Dock<?> variable,GridBagConstraints c) {
-        if(variable instanceof DockReceiving) {
-            DockReceiving r = (DockReceiving)variable;
+        if (variable instanceof DockReceiving r) {
             if (Number.class.isAssignableFrom(variable.getTypeClass())) {
                 addTextField(r, c);
             } else if (variable.getTypeClass().equals(String.class)) {
@@ -162,8 +161,7 @@ public class EditNodePanel extends JPanel {
         int j=0;
         for(int i=0;i<subject.getNumVariables();++i) {
             Dock<?> variable = subject.getVariable(i);
-            if(variable instanceof DockReceiving) {
-                DockReceiving r = (DockReceiving)variable;
+            if (variable instanceof DockReceiving r) {
                 if (variable.getTypeClass().equals(Number.class)) {
                     panel.readTextField(j++, r);
                 } else if (variable.getTypeClass().equals(String.class)) {

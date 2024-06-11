@@ -1,5 +1,10 @@
 package com.marginallyclever.donatello.nodes;
 
+import com.marginallyclever.nodegraphcore.DockReceiving;
+import com.marginallyclever.nodegraphcore.DockShipping;
+import com.marginallyclever.nodegraphcore.Node;
+import com.marginallyclever.nodegraphcore.Packet;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -63,10 +68,10 @@ public class ColorAtPoint extends Node {
             for (int y = startY; y < endY; ++y) {
                 for (int x = startX; x < endX; ++x) {
                     int pixel = src.getRGB(x,y);
-                    sumA += (double)((pixel >> 24) & 0xff);
-                    sumR += (double)((pixel >> 16) & 0xff);
-                    sumG += (double)((pixel >>  8) & 0xff);
-                    sumB += (double)((pixel      ) & 0xff);
+                    sumA += (pixel >> 24) & 0xff;
+                    sumR += (pixel >> 16) & 0xff;
+                    sumG += (pixel >> 8) & 0xff;
+                    sumB += (pixel) & 0xff;
                     sumCount++;
                 }
             }

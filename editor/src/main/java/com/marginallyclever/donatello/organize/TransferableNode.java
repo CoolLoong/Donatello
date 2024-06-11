@@ -21,9 +21,7 @@ public class TransferableNode implements Transferable {
     }
 
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        if (flavor.equals(nodeFlavor) || flavor.equals(DataFlavor.stringFlavor))
-            return true;
-        return false;
+        return flavor.equals(nodeFlavor) || flavor.equals(DataFlavor.stringFlavor);
     }
 
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {

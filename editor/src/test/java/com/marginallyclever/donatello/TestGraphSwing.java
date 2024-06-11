@@ -3,13 +3,16 @@ package com.marginallyclever.donatello;
 import com.marginallyclever.donatello.actions.GraphSaveAction;
 import com.marginallyclever.donatello.nodes.images.LoadImage;
 import com.marginallyclever.donatello.nodes.images.PrintImage;
+import com.marginallyclever.nodegraphcore.Connection;
+import com.marginallyclever.nodegraphcore.DAO4JSONFactory;
+import com.marginallyclever.nodegraphcore.Graph;
+import com.marginallyclever.nodegraphcore.NodeFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test the GraphSwing elements.
@@ -17,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @since 2022-02-21
  */
 public class TestGraphSwing {
-    private static Graph model = new Graph();
+    private static final Graph model = new Graph();
 
     @BeforeAll
     public static void beforeAll() {

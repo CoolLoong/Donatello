@@ -1,6 +1,8 @@
 package com.marginallyclever.donatello.nodes.images;
 
+import com.marginallyclever.nodegraphcore.DockReceiving;
 import com.marginallyclever.nodegraphcore.Node;
+import com.marginallyclever.nodegraphcore.PrintWithGraphics;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,6 +34,6 @@ public class PrintImage extends Node implements PrintWithGraphics {
 
     @Override
     public void print(Graphics g) {
-        g.drawImage((BufferedImage)image.getValue(),px.getValue().intValue(),py.getValue().intValue(),null);
+        g.drawImage(image.getValue(), px.getValue().intValue(), py.getValue().intValue(), null);
     }
 }

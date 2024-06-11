@@ -1,5 +1,10 @@
 package com.marginallyclever.donatello.nodes.images;
 
+import com.marginallyclever.nodegraphcore.DockReceiving;
+import com.marginallyclever.nodegraphcore.DockShipping;
+import com.marginallyclever.nodegraphcore.Node;
+import com.marginallyclever.nodegraphcore.Packet;
+
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;

@@ -1,5 +1,6 @@
 package com.marginallyclever.donatello;
 
+import com.marginallyclever.nodegraphcore.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ServiceLoader;

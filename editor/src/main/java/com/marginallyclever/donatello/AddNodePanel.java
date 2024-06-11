@@ -21,7 +21,7 @@ public class AddNodePanel extends JPanel implements SearchListener {
     /**
      * The database of names in the list model.
      */
-    private List<String> names = List.of(NodeFactory.getNames());
+    private final List<String> names = List.of(NodeFactory.getNames());
 
     /**
      * list model controls the contents of the list.  This is needed to add/remove as the search field is changed.

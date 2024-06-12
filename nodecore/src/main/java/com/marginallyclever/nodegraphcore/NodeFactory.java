@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -29,7 +30,9 @@ public class NodeFactory {
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> subTypes = reflections.get(SubTypes.of(Node.class).asClass(helper.getExtensionClassLoader()));
         for (Class<?> typeFound : subTypes) {
-            registerNode((Class<? extends Node>) typeFound);
+            if (!Modifier.isAbstract(typeFound.getModifiers())) {
+                registerNode((Class<? extends Node>) typeFound);
+            }
         }
     }
 

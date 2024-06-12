@@ -1,9 +1,15 @@
 package com.marginallyclever.donatello;
 
-import com.marginallyclever.donatello.nodes.ColorAtPoint;
+import com.marginallyclever.donatello.component.FourNumberGroupPanel;
+import com.marginallyclever.donatello.component.ThreeNumberGroupPanel;
+import com.marginallyclever.donatello.component.ThreeNumberInputPanel;
 import com.marginallyclever.nodegraphcore.Dock;
 import com.marginallyclever.nodegraphcore.DockReceiving;
 import com.marginallyclever.nodegraphcore.Node;
+import com.marginallyclever.nodegraphcore.nodes.custom.goal.RoamingWithLocationGoalNode;
+import com.marginallyclever.nodegraphcore.type.FourNumberArray;
+import com.marginallyclever.nodegraphcore.type.ThreeNumber;
+import com.marginallyclever.nodegraphcore.type.ThreeNumberArray;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +56,7 @@ public class EditNodePanel extends JPanel {
         c.gridy++;
         addReadOnlyField(c, "ID", node.getUniqueID());
         c.gridy++;
-        addLabelField(c);
+        addReadOnlyField(c, "Label", node.getLabel());
         c.gridy++;
 
         for (int i = 0; i < node.getNumVariables(); ++i) {
@@ -68,6 +74,12 @@ public class EditNodePanel extends JPanel {
                 addTextField(r, c);
             } else if (variable.getTypeClass().equals(Boolean.class)) {
                 addBooleanField(r, c);
+            } else if (variable.getTypeClass().equals(ThreeNumber.class)) {
+                addCoordinateField(r, c);
+            } else if (variable.getTypeClass().equals(ThreeNumberArray.class)) {
+                addThreeNumberGroupField(r, c);
+            } else if (variable.getTypeClass().equals(FourNumberArray.class)) {
+                addFourNumberGroupField(r, c);
             } else {
                 addReadOnlyField(c, variable.getName(), variable.getTypeName());
             }
@@ -94,6 +106,42 @@ public class EditNodePanel extends JPanel {
         c.anchor = GridBagConstraints.LINE_END;
         c.gridx = 1;
         this.add(textField, c);
+    }
+
+    private void addCoordinateField(DockReceiving<?> variable, GridBagConstraints c) {
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx = 0;
+        this.add(new JLabel(variable.getName()), c);
+
+        ThreeNumberInputPanel coordinateInputPanel = new ThreeNumberInputPanel();
+        fields.add(coordinateInputPanel);
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx = 1;
+        this.add(coordinateInputPanel, c);
+    }
+
+    private void addThreeNumberGroupField(DockReceiving<?> variable, GridBagConstraints c) {
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx = 0;
+        this.add(new JLabel(variable.getName()), c);
+
+        ThreeNumberGroupPanel coordinateGroup = new ThreeNumberGroupPanel();
+        fields.add(coordinateGroup);
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx = 1;
+        this.add(coordinateGroup, c);
+    }
+
+    private void addFourNumberGroupField(DockReceiving<?> variable, GridBagConstraints c) {
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx = 0;
+        this.add(new JLabel(variable.getName()), c);
+
+        FourNumberGroupPanel coordinateGroup = new FourNumberGroupPanel();
+        fields.add(coordinateGroup);
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx = 1;
+        this.add(coordinateGroup, c);
     }
 
     /**
@@ -226,7 +274,7 @@ public class EditNodePanel extends JPanel {
      */
     public static void main(String[] args) {
         // a test case
-        Node node = new ColorAtPoint();
+        Node node = new RoamingWithLocationGoalNode();
         EditNodePanel.runAsDialog(node, null);
     }
 }

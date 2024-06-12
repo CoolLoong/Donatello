@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -27,7 +28,7 @@ public class AddNodePanel extends JPanel implements SearchListener {
     /**
      * The database of names in the list model.
      */
-    private final List<String> names = List.of(NodeFactory.getNames());
+    private final List<String> names = Arrays.asList(NodeFactory.getNames());
 
     /**
      * list model controls the contents of the list.  This is needed to add/remove as the search field is changed.

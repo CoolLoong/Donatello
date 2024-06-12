@@ -106,8 +106,7 @@ public class Connection {
         if (inNode == null) return false;
         if (inVariableIndex == -1) return false;
         if (inNode.getNumVariables() <= inVariableIndex) return false;
-        if (!(inNode.getVariable(inVariableIndex) instanceof DockShipping)) return false;
-        return true;
+        return inNode.getVariable(inVariableIndex) instanceof DockShipping;
     }
 
     /**
@@ -117,8 +116,7 @@ public class Connection {
         if (outNode == null) return false;
         if (outVariableIndex == -1) return false;
         if (outNode.getNumVariables() <= outVariableIndex) return false;
-        if (!(outNode.getVariable(outVariableIndex) instanceof DockReceiving)) return false;
-        return true;
+        return outNode.getVariable(outVariableIndex) instanceof DockReceiving;
     }
 
     /**

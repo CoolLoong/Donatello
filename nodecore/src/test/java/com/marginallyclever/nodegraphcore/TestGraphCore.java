@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 2022-02-21
  */
 public class TestGraphCore {
-    private static Graph graph = new Graph();
+    private static final Graph graph = new Graph();
 
     @BeforeAll
     public static void beforeAll() throws Exception {
@@ -150,6 +150,8 @@ public class TestGraphCore {
      */
     @Test
     public void testModelToJSONAndBack() {
+        NodeFactory.clear();
+        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
         buildAddTwoConstants();
         JSONObject a = graph.toJSON();
         Graph modelB = new Graph();
@@ -213,7 +215,7 @@ public class TestGraphCore {
         testNodeVariableToJSONAndBack(Number.class, 1.2,0.0);
          */
         testNodeVariableToJSONAndBack(Rectangle.class, new Rectangle(), new Rectangle());
-        testNodeVariableToJSONAndBack(String.class, "hello", new String());
+        testNodeVariableToJSONAndBack(String.class, "hello", "");
         testNodeVariableToJSONAndBack(Number.class, 1.2D, 0.0D);
         testNodeVariableToJSONAndBack(Number.class, 1, 0);
     }
@@ -229,7 +231,8 @@ public class TestGraphCore {
     @Test
     public void testAddTwoModelsTogether() {
         buildAddTwoConstants();
-
+        NodeFactory.clear();
+        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
         Graph modelB = new Graph();
         modelB.add(graph);
         modelB.add(graph.deepCopy());

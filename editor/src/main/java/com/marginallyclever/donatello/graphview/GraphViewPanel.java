@@ -471,16 +471,29 @@ public class GraphViewPanel extends JPanel {
         int w = metrics.stringWidth(str);
 
         int x, y;
-        x = switch (alignH) {
-            default -> (int) box.getMinX();
-            case ALIGN_RIGHT -> (int) (box.getMaxX() - w);
-            case ALIGN_CENTER -> (int) (box.getMinX() + (box.getWidth() - w) / 2);
-        };
-        y = switch (alignV) {
-            default -> (int) (box.getMinY() + h);
-            case ALIGN_BOTTOM -> (int) (box.getMaxY());
-            case ALIGN_CENTER -> (int) (box.getMinY() + (box.getHeight() + h) / 2);
-        };
+        switch (alignH) {
+            case ALIGN_RIGHT:
+                x = (int) (box.getMaxX() - w);
+                break;
+            case ALIGN_CENTER:
+                x = (int) (box.getMinX() + (box.getWidth() - w) / 2);
+                break;
+            default:
+                x = (int) box.getMinX();
+                break;
+        }
+
+        switch (alignV) {
+            case ALIGN_BOTTOM:
+                y = (int) (box.getMaxY());
+                break;
+            case ALIGN_CENTER:
+                y = (int) (box.getMinY() + (box.getHeight() + h) / 2);
+                break;
+            default:
+                y = (int) (box.getMinY() + h);
+                break;
+        }
         layout.draw((Graphics2D) g, x, y);
     }
 

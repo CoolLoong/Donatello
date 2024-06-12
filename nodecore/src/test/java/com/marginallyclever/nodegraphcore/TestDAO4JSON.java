@@ -46,7 +46,7 @@ public class TestDAO4JSON {
     @Test
     public void testStringDAO() {
         StringDAO4JSON dao = new StringDAO4JSON();
-        String r1 = new String("abcd");
+        String r1 = "abcd";
         String r2 = dao.fromJSON(dao.toJSON(r1));
         assertEquals(r1, r2);
     }

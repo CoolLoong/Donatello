@@ -25,7 +25,7 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
      */
     public void registerNodes() throws GraphException {
         logger.info("Registering core nodes");
-        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
+        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes.custom");
     }
 
     /**

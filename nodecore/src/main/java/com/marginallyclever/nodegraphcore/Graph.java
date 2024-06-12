@@ -324,7 +324,7 @@ public class Graph {
      * @return the smallest {@link Rectangle} that contains all {@link Node}s, or null.
      */
     public Rectangle getBounds() {
-        if (nodes.size() == 0) return null;
+        if (nodes.isEmpty()) return null;
 
         Rectangle r = new Rectangle(nodes.get(0).getRectangle());
         for (Node n : nodes) {

@@ -38,7 +38,7 @@ public class NodeFactory {
         System.out.println("Registering node " + typeFound.getName());
         verifyTypeNotRegistered(typeFound);
         verifyTypeConstructor(typeFound);
-        nodeRegistry.put(typeFound.getSimpleName(), (Class<? extends Node>) typeFound);
+        nodeRegistry.put(typeFound.getSimpleName(), typeFound);
     }
 
     private static void verifyTypeNotRegistered(Class<?> typeFound) throws GraphException {

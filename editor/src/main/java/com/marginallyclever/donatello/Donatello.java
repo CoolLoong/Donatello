@@ -137,7 +137,8 @@ public class Donatello extends JPanel {
 
         paintArea = new GraphViewPanel(graph);
 
-        this.add(toolBar, BorderLayout.NORTH);
+        // no need toolbar
+        //this.add(toolBar, BorderLayout.NORTH);
         this.add(paintArea, BorderLayout.CENTER);
         this.add(statusBar, BorderLayout.SOUTH);
 

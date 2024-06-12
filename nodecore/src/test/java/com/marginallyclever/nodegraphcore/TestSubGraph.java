@@ -25,6 +25,8 @@ public class TestSubGraph {
 
     @Test
     public void test() throws Exception {
+        NodeFactory.clear();
+        NodeFactory.registerAllNodesInPackage("com.marginallyclever.nodegraphcore.nodes");
         Graph graph = new Graph();
         Add add = new Add();
         graph.add(add);

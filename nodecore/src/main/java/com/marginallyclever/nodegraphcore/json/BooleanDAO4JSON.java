@@ -12,7 +12,7 @@ import org.json.JSONException;
 public class BooleanDAO4JSON implements DAO4JSON<Boolean> {
     @Override
     public Object toJSON(Object value) throws JSONException {
-        return (Boolean) value;
+        return value;
     }
 
     @Override

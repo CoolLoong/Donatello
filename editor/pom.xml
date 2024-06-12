@@ -42,9 +42,10 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <release>${minimum.java.version}</release>
+                    <source>${minimum.java.version}</source>
+                    <target>${minimum.java.version}</target>
                     <useIncrementalCompilation>false</useIncrementalCompilation>
                     <encoding>UTF-8</encoding>
                     <compilerArgs>
@@ -312,12 +313,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <minimum.maven.version>3.8.1</minimum.maven.version>
-        <minimum.java.version>21</minimum.java.version>
+        <minimum.java.version>1.8</minimum.java.version>
         <jogl.version>2.4.0-rc-20200307</jogl.version>
         <maven-dependency-plugin.ignoreNonCompile>true</maven-dependency-plugin.ignoreNonCompile>
         <maven.compiler.source>${minimum.java.version}</maven.compiler.source>
         <maven.compiler.target>${minimum.java.version}</maven.compiler.target>
-        <maven.compiler.release>${minimum.java.version}</maven.compiler.release>
     </properties>
 
 

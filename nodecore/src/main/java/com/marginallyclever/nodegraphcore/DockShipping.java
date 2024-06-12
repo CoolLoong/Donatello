@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DockShipping<T> extends Dock<T> {
-    private List<Connection> to = new ArrayList<>();
+    private final List<Connection> to = new ArrayList<>();
 
     public DockShipping(String _name, Class<T> type, T startingValue) throws IllegalArgumentException {
         super(_name, type, startingValue);

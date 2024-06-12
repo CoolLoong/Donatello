@@ -6,9 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * {@link Node} is a collection of zero or more inputs and zero or more outputs connected by some operator.
@@ -32,6 +31,7 @@ public abstract class Node {
     private final Rectangle rectangle = new Rectangle(0, 0, 150, 50);
 
     private final List<Dock<?>> variables = new ArrayList<>();
+    private final Map<String, String> metadata = new HashMap<>();
 
     /**
      * Default constructor
@@ -160,6 +160,10 @@ public abstract class Node {
         return variables.size();
     }
 
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
     /**
      * Get the i-th {@link Dock} in this node.
      *
@@ -260,6 +264,7 @@ public abstract class Node {
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
         jo.put("variables", getAllVariablesAsJSON());
+        jo.put("metadata", new JSONObject(metadata));
         return jo;
     }
 
@@ -285,6 +290,7 @@ public abstract class Node {
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
         parseAllVariablesFromJSON(jo.getJSONArray("variables"));
+        jo.getJSONObject("metadata").toMap().forEach((k, v) -> this.metadata.put(k, v.toString()));
     }
 
     private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {

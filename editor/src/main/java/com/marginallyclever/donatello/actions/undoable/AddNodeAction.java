@@ -23,8 +23,8 @@ public class AddNodeAction extends AbstractAction {
 
     /**
      * Constructor for subclasses to call.
-     * @param name the name of this action visible on buttons and menu items.
-     * @param icon the small icon of this action visible on buttons and menu items.
+     *
+     * @param name   the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
     public AddNodeAction(String name, Donatello editor) {

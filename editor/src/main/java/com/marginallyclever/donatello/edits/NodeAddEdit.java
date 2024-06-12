@@ -5,8 +5,6 @@ import com.marginallyclever.nodegraphcore.Node;
 
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NodeAddEdit extends SignificantUndoableEdit {
     private final String name;
@@ -30,7 +28,6 @@ public class NodeAddEdit extends SignificantUndoableEdit {
         editor.lockClock();
         try {
             editor.getGraph().add(node);
-            editor.setSelectedNode(node);
             editor.repaint(node.getRectangle());
         }
         finally {
@@ -43,10 +40,6 @@ public class NodeAddEdit extends SignificantUndoableEdit {
         editor.lockClock();
         try {
             editor.getGraph().remove(node);
-
-            List<Node> nodes = new ArrayList<>(editor.getSelectedNodes());
-            nodes.remove(node);
-            editor.setSelectedNodes(nodes);
         }
         finally {
             editor.unlockClock();

@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NodeMoveTool extends ContextSensitiveTool {
     private final Donatello editor;
@@ -17,7 +19,7 @@ public class NodeMoveTool extends ContextSensitiveTool {
     /**
      * true while dragging one or more nodes around.
      */
-    private boolean dragOn=false;
+    private boolean dragOn = false;
 
     /**
      * for tracking relative motion, useful for relative moves like dragging.
@@ -52,8 +54,8 @@ public class NodeMoveTool extends ContextSensitiveTool {
 
     @Override
     public boolean isCorrectContext(Point p) {
-        for( Node node : editor.getSelectedNodes() ) {
-            if(node.getRectangle().contains(p)) {
+        for (Node node : editor.getGraph().getNodes()) {
+            if (node.getRectangle().contains(p)) {
                 return true;
             }
         }
@@ -61,7 +63,7 @@ public class NodeMoveTool extends ContextSensitiveTool {
     }
 
     public KeyStroke getAcceleratorKey() {
-        return KeyStroke.getKeyStroke(KeyEvent.VK_M,0);
+        return KeyStroke.getKeyStroke(KeyEvent.VK_M, 0);
     }
 
     @Override
@@ -82,7 +84,7 @@ public class NodeMoveTool extends ContextSensitiveTool {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if(dragOn) {
+        if (dragOn) {
             Point p = editor.getPaintArea().transformMousePoint(e.getPoint());
             int dx = p.x - mousePreviousPosition.x;
             int dy = p.y - mousePreviousPosition.y;
@@ -99,8 +101,24 @@ public class NodeMoveTool extends ContextSensitiveTool {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(!dragOn) {
-            dragOn=true;
+        Point point = editor.getPaintArea().transformMousePoint(e.getPoint());
+        Node nodeAt = editor.getGraph().getNodeAt(point);
+        if (nodeAt != null) {
+            final List<Node> selectedNodes = editor.getSelectedNodes();
+            if (!selectedNodes.contains(nodeAt)) {
+                boolean isCtrlPressed = e.isControlDown();
+                ArrayList<Node> no;
+                if (isCtrlPressed) {
+                    no = new ArrayList<>(selectedNodes);
+                } else {
+                    no = new ArrayList<>();
+                }
+                no.add(nodeAt);
+                editor.setSelectedNodes(no);
+            }
+        }
+        if (!dragOn) {
+            dragOn = true;
             setActive(true);
             mousePreviousPosition.setLocation(editor.getPaintArea().transformMousePoint(e.getPoint()));
             mouseStartPosition.setLocation(mousePreviousPosition);
@@ -109,13 +127,13 @@ public class NodeMoveTool extends ContextSensitiveTool {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(dragOn) {
-            dragOn=false;
+        if (dragOn) {
+            dragOn = false;
             setActive(false);
             Point p = editor.getPaintArea().transformMousePoint(e.getPoint());
             int dx = p.x - mouseStartPosition.x;
             int dy = p.y - mouseStartPosition.y;
-            editor.addEdit(new MoveNodesEdit(getName(),editor,dx,dy));
+            editor.addEdit(new MoveNodesEdit(getName(), editor, dx, dy));
         }
     }
 }

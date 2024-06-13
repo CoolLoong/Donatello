@@ -1,5 +1,6 @@
 package com.marginallyclever.nodegraphcore;
 
+import com.marginallyclever.nodegraphcore.nodes.custom.NodeType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,7 +68,14 @@ public class Connection {
         if (!isInputValid() || !isOutputValid()) return false;
         Dock<?> in = getInputVariable();
         Dock<?> out = getOutputVariable();
-        return out.isValidType(in.getValue());
+
+        if (inNode.getLabel().equals(NodeType.GOAL.getName()) && outNode.getLabel().equals(NodeType.STATE.getName())
+                && in.getName().equals(Dock.to) && out.getName().equals(Dock.from) && out.isValidType(in.getValue())) {
+            return true;
+        } else {
+            return inNode.getLabel().equals(NodeType.STATE.getName()) && outNode.getLabel().equals(NodeType.GOAL.getName())
+                    && in.getName().equals(Dock.to) && out.getName().equals(Dock.from) && out.isValidType(in.getValue());
+        }
     }
 
     /**
@@ -207,6 +215,7 @@ public class Connection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Connection that = (Connection) o;
+        if (that.inNode == null || that.outNode == null || inNode == null || outNode == null) return false;
         return inVariableIndex == that.inVariableIndex &&
                 outVariableIndex == that.outVariableIndex &&
                 inNode.equals(that.inNode) &&

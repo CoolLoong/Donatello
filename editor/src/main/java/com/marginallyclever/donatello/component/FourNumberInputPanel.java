@@ -24,21 +24,52 @@ public class FourNumberInputPanel extends JPanel {
     }
 
     public Double getXValue() {
-        return Double.parseDouble(xField.getText());
+        try {
+            return Double.parseDouble(xField.getText());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public void setXValue(double v) {
+        xField.setText(String.valueOf(v));
     }
 
     public Double getYValue() {
-        return Double.parseDouble(yField.getText());
+        try {
+            return Double.parseDouble(yField.getText());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public void setYValue(double v) {
+        yField.setText(String.valueOf(v));
     }
 
     public Double getZValue() {
-        return Double.parseDouble(zField.getText());
+        try {
+            return Double.parseDouble(zField.getText());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public void setZValue(double v) {
+        zField.setText(String.valueOf(v));
     }
 
     public Double getWValue() {
-        return Double.parseDouble(wField.getText());
+        try {
+            return Double.parseDouble(wField.getText());
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
+    public void setWValue(double v) {
+        wField.setText(String.valueOf(v));
+    }
 
     private static class NumericDocumentFilter extends DocumentFilter {
         @Override

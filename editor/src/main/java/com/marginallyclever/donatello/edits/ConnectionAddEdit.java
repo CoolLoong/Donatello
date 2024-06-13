@@ -37,12 +37,12 @@ public class ConnectionAddEdit extends SignificantUndoableEdit {
         editor.lockClock();
         try {
             Graph graph = editor.getGraph();
-            for(Connection c : connectionsInto) {
+            for (Connection c : connectionsInto) {
                 graph.remove(c);
             }
             graph.add(connection);
-        }
-            finally {
+            editor.updateUI();
+        } finally {
             editor.unlockClock();
         }
     }
@@ -53,11 +53,11 @@ public class ConnectionAddEdit extends SignificantUndoableEdit {
         try {
             Graph graph = editor.getGraph();
             graph.remove(connection);
-            for(Connection c : connectionsInto) {
+            for (Connection c : connectionsInto) {
                 graph.add(c);
             }
-        }
-        finally {
+            editor.updateUI();
+        } finally {
             editor.unlockClock();
         }
         super.undo();

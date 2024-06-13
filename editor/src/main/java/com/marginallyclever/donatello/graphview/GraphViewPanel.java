@@ -504,6 +504,7 @@ public class GraphViewPanel extends JPanel {
      * @param c the {@link Dock} to paint.
      */
     public void paintConnection(Graphics g, Connection c) {
+        if (c.getInNode() == null || c.getOutNode() == null) return;
         Point p0 = c.getInPosition();
         Point p3 = c.getOutPosition();
         paintBezierBetweenTwoPoints(g, p0, p3);

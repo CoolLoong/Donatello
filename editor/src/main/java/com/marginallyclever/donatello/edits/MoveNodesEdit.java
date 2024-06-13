@@ -1,6 +1,7 @@
 package com.marginallyclever.donatello.edits;
 
 import com.marginallyclever.donatello.Donatello;
+import com.marginallyclever.donatello.contextsensitivetools.NodeTool;
 import com.marginallyclever.nodegraphcore.Node;
 
 import javax.swing.undo.CannotRedoException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by the {@link com.marginallyclever.donatello.contextsensitivetools.NodeMoveTool} so that reorganizations
+ * Created by the {@link NodeTool} so that reorganizations
  * can be undone.  This edit is created when a move is complete and should record only the significant relative change
  * in position.  Since the tool already completed the move there is no need to apply the move in the constructor.
  * @author Dan Royer

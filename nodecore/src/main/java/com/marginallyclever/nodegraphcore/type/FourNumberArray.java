@@ -13,4 +13,8 @@ public class FourNumberArray {
     public void set(List<FourNumber> v) {
         this.v = v;
     }
+
+    public boolean isEmpty() {
+        return v.isEmpty();
+    }
 }

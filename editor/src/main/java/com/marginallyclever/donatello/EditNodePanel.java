@@ -1,12 +1,15 @@
 package com.marginallyclever.donatello;
 
 import com.marginallyclever.donatello.component.FourNumberGroupPanel;
+import com.marginallyclever.donatello.component.FourNumberInputPanel;
 import com.marginallyclever.donatello.component.ThreeNumberGroupPanel;
 import com.marginallyclever.donatello.component.ThreeNumberInputPanel;
 import com.marginallyclever.nodegraphcore.Dock;
 import com.marginallyclever.nodegraphcore.DockReceiving;
+import com.marginallyclever.nodegraphcore.DockValue;
 import com.marginallyclever.nodegraphcore.Node;
 import com.marginallyclever.nodegraphcore.nodes.custom.goal.RoamingWithLocationGoalNode;
+import com.marginallyclever.nodegraphcore.type.FourNumber;
 import com.marginallyclever.nodegraphcore.type.FourNumberArray;
 import com.marginallyclever.nodegraphcore.type.ThreeNumber;
 import com.marginallyclever.nodegraphcore.type.ThreeNumberArray;
@@ -66,20 +69,19 @@ public class EditNodePanel extends JPanel {
     }
 
     private void addVariableField(Dock<?> variable, GridBagConstraints c) {
-        if (variable instanceof DockReceiving) {
-            DockReceiving r = (DockReceiving) variable;
+        if (variable instanceof DockReceiving || variable instanceof DockValue) {
             if (Number.class.isAssignableFrom(variable.getTypeClass())) {
-                addTextField(r, c);
+                addTextField(variable, c);
             } else if (variable.getTypeClass().equals(String.class)) {
-                addTextField(r, c);
+                addTextField(variable, c);
             } else if (variable.getTypeClass().equals(Boolean.class)) {
-                addBooleanField(r, c);
+                addBooleanField(variable, c);
             } else if (variable.getTypeClass().equals(ThreeNumber.class)) {
-                addCoordinateField(r, c);
+                addCoordinateField(variable, c);
             } else if (variable.getTypeClass().equals(ThreeNumberArray.class)) {
-                addThreeNumberGroupField(r, c);
+                addThreeNumberGroupField(variable, c);
             } else if (variable.getTypeClass().equals(FourNumberArray.class)) {
-                addFourNumberGroupField(r, c);
+                addFourNumberGroupField(variable, c);
             } else {
                 addReadOnlyField(c, variable.getName(), variable.getTypeName());
             }
@@ -94,7 +96,7 @@ public class EditNodePanel extends JPanel {
      * @param variable the {@link Dock} to add.
      * @param c        {@link GridBagConstraints} for placement.
      */
-    private void addTextField(DockReceiving<?> variable, GridBagConstraints c) {
+    private void addTextField(Dock<?> variable, GridBagConstraints c) {
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx = 0;
         this.add(new JLabel(variable.getName()), c);
@@ -108,7 +110,7 @@ public class EditNodePanel extends JPanel {
         this.add(textField, c);
     }
 
-    private void addCoordinateField(DockReceiving<?> variable, GridBagConstraints c) {
+    private void addCoordinateField(Dock<?> variable, GridBagConstraints c) {
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx = 0;
         this.add(new JLabel(variable.getName()), c);
@@ -120,7 +122,7 @@ public class EditNodePanel extends JPanel {
         this.add(coordinateInputPanel, c);
     }
 
-    private void addThreeNumberGroupField(DockReceiving<?> variable, GridBagConstraints c) {
+    private void addThreeNumberGroupField(Dock<?> variable, GridBagConstraints c) {
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx = 0;
         this.add(new JLabel(variable.getName()), c);
@@ -132,16 +134,35 @@ public class EditNodePanel extends JPanel {
         this.add(coordinateGroup, c);
     }
 
-    private void addFourNumberGroupField(DockReceiving<?> variable, GridBagConstraints c) {
+    private void addFourNumberGroupField(Dock<?> variable, GridBagConstraints c) {
+        FourNumberArray value = (FourNumberArray) variable.getValue();
+
+        FourNumberGroupPanel fourNumberGroupPanel;
+        if (value.isEmpty()) {
+            fourNumberGroupPanel = new FourNumberGroupPanel();
+        } else {
+            fourNumberGroupPanel = new FourNumberGroupPanel();
+            fourNumberGroupPanel.clear();
+            value.get().forEach(fourNumber -> {
+                FourNumberInputPanel input = new FourNumberInputPanel();
+                input.setXValue(fourNumber.getX());
+                input.setYValue(fourNumber.getY());
+                input.setZValue(fourNumber.getZ());
+                input.setWValue(fourNumber.getW());
+                fourNumberGroupPanel.addInputPanel(input);
+            });
+            for (int i = fourNumberGroupPanel.getInputPanels().size(); i < 5; i++) {
+                fourNumberGroupPanel.addInputPanel();
+            }
+        }
+
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx = 0;
         this.add(new JLabel(variable.getName()), c);
-
-        FourNumberGroupPanel coordinateGroup = new FourNumberGroupPanel();
-        fields.add(coordinateGroup);
+        fields.add(fourNumberGroupPanel);
         c.anchor = GridBagConstraints.LINE_END;
         c.gridx = 1;
-        this.add(coordinateGroup, c);
+        this.add(fourNumberGroupPanel, c);
     }
 
     /**
@@ -150,7 +171,7 @@ public class EditNodePanel extends JPanel {
      * @param variable the {@link Dock} to add.
      * @param c        {@link GridBagConstraints} for placement.
      */
-    private void addBooleanField(DockReceiving<?> variable, GridBagConstraints c) {
+    private void addBooleanField(Dock<?> variable, GridBagConstraints c) {
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx = 0;
         this.add(new JLabel(variable.getName()), c);
@@ -208,7 +229,6 @@ public class EditNodePanel extends JPanel {
     public static void runAsDialog(Node subject, Frame frame) {
         EditNodePanel panel = new EditNodePanel(subject);
         if (JOptionPane.showConfirmDialog(frame, panel, "Edit " + subject.getName(), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION) {
-            subject.setLabel(panel.getLabel());
             readAllFields(subject, panel);
         }
     }
@@ -217,14 +237,15 @@ public class EditNodePanel extends JPanel {
         int j = 0;
         for (int i = 0; i < subject.getNumVariables(); ++i) {
             Dock<?> variable = subject.getVariable(i);
-            if (variable instanceof DockReceiving) {
-                DockReceiving r = (DockReceiving) variable;
+            if (variable instanceof DockReceiving || variable instanceof DockValue) {
                 if (variable.getTypeClass().equals(Number.class)) {
-                    panel.readTextField(j++, r);
+                    panel.readTextField(j++, variable);
                 } else if (variable.getTypeClass().equals(String.class)) {
-                    panel.readTextField(j++, r);
+                    panel.readTextField(j++, variable);
                 } else if (variable.getTypeClass().equals(Boolean.class)) {
-                    panel.readBooleanField(j++, r);
+                    panel.readBooleanField(j++, variable);
+                } else if (variable.getTypeClass().equals(FourNumberArray.class)) {
+                    panel.readFourNumberArray(j++, variable);
                 } else {
                     // TODO ???
                 }
@@ -232,7 +253,7 @@ public class EditNodePanel extends JPanel {
         }
     }
 
-    private void readBooleanField(int index, DockReceiving<?> variable) {
+    private void readBooleanField(int index, Dock<?> variable) {
         JCheckBox f = (JCheckBox) fields.get(index);
         if (f == null) {
             // TODO ???
@@ -242,7 +263,26 @@ public class EditNodePanel extends JPanel {
         variable.setValue(f.isSelected());
     }
 
-    private void readTextField(int index, DockReceiving<?> variable) {
+    private void readFourNumberArray(int index, Dock<?> variable) {
+        FourNumberGroupPanel f = (FourNumberGroupPanel) fields.get(index);
+        if (f == null) {
+            // TODO ???
+            return;
+        }
+        FourNumberArray fourNumberArray = new FourNumberArray();
+        for (FourNumberInputPanel fourNumberInputPanel : f.getInputPanels()) {
+            Double xValue = fourNumberInputPanel.getXValue();
+            Double yValue = fourNumberInputPanel.getYValue();
+            Double zValue = fourNumberInputPanel.getZValue();
+            Double wValue = fourNumberInputPanel.getWValue();
+            if (xValue == null || yValue == null || zValue == null || wValue == null) continue;
+            FourNumber fourNumber = new FourNumber(xValue, yValue, zValue, wValue);
+            fourNumberArray.get().add(fourNumber);
+        }
+        variable.setValue(fourNumberArray);
+    }
+
+    private void readTextField(int index, Dock<?> variable) {
         JTextField f = (JTextField) fields.get(index);
         if (f == null) {
             // TODO ???

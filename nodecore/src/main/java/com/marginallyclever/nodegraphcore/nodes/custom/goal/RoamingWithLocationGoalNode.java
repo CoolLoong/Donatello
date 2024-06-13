@@ -1,17 +1,15 @@
 package com.marginallyclever.nodegraphcore.nodes.custom.goal;
 
-import com.marginallyclever.nodegraphcore.DockReceiving;
+import com.marginallyclever.nodegraphcore.DockValue;
 import com.marginallyclever.nodegraphcore.type.FourNumberArray;
 
 public class RoamingWithLocationGoalNode extends BaseGoalNode {
-    private final DockReceiving<FourNumberArray> a = new DockReceiving<>("坐标/速度", FourNumberArray.class, new FourNumberArray());
+    public static final String name = "周期坐标移动";
+
+    private final DockValue<FourNumberArray> c = new DockValue<>("坐标/速度", FourNumberArray.class, new FourNumberArray());
 
     public RoamingWithLocationGoalNode() {
-        super("周期随机移动");
-        addVariable(a);
-    }
-
-    @Override
-    public void update() {
+        super("周期坐标移动");
+        addVariable(c);
     }
 }

@@ -17,6 +17,10 @@ public class DockShipping<T> extends Dock<T> {
         }
     }
 
+    public List<Connection> getTo() {
+        return to;
+    }
+
     public void addTo(Connection connection) {
         to.add(connection);
     }

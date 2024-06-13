@@ -15,6 +15,10 @@ public class DockReceiving<T> extends Dock<T> {
         super.setValue(packet.getData());
     }
 
+    public Connection getFrom() {
+        return from;
+    }
+
     public boolean hasPacketWaiting() {
         return from != null && !from.isEmpty();
     }

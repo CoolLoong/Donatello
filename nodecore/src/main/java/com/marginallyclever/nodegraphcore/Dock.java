@@ -13,6 +13,9 @@ import java.awt.*;
  * @since 2022-02-01
  */
 public abstract class Dock<T> {
+    public static final String from = "From";
+    public static final String to = "To";
+
     /**
      * Dimensions used for bounds calculations and intersection tests.
      */
@@ -119,6 +122,7 @@ public abstract class Dock<T> {
      * @return true if the given item is an instance of this value's type.
      */
     public boolean isValidType(Object arg0) {
+        if (type == Void.TYPE && arg0 == null) return true;
         return type.isAssignableFrom(arg0.getClass());
     }
 

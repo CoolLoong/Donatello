@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NodeMoveTool extends ContextSensitiveTool {
+public class NodeTool extends ContextSensitiveTool {
     private final Donatello editor;
 
     /**
@@ -31,7 +31,7 @@ public class NodeMoveTool extends ContextSensitiveTool {
      */
     private final Point mouseStartPosition = new Point();
 
-    public NodeMoveTool(Donatello editor) {
+    public NodeTool(Donatello editor) {
         super();
         this.editor = editor;
     }
@@ -80,6 +80,18 @@ public class NodeMoveTool extends ContextSensitiveTool {
         GraphViewPanel paintArea = editor.getPaintArea();
         paintArea.removeMouseMotionListener(this);
         paintArea.removeMouseListener(this);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        //handle open node edit panel when double click 
+        if (e.getClickCount() > 1) {
+            Point point = editor.getPaintArea().transformMousePoint(e.getPoint());
+            Node nodeAt = editor.getGraph().getNodeAt(point);
+            if (nodeAt != null) {
+                editor.getEditNodeAction().actionPerformedSpecific(nodeAt);
+            }
+        }
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Launches the "edit node" dialog.
+ *
  * @author Dan Royer
  * @since 2022-02-21
  */
@@ -21,7 +22,8 @@ public class EditNodeAction extends AbstractAction implements EditorAction {
 
     /**
      * Constructor for subclasses to call.
-     * @param name the name of this action visible on buttons and menu items.
+     *
+     * @param name   the name of this action visible on buttons and menu items.
      * @param editor the editor affected by this Action.
      */
     public EditNodeAction(String name, Donatello editor) {
@@ -32,10 +34,15 @@ public class EditNodeAction extends AbstractAction implements EditorAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         List<Node> nodes = editor.getSelectedNodes();
-        if(nodes.isEmpty()) return;
+        if (nodes.isEmpty()) return;
         Node firstNode = nodes.get(0);
-        EditNodePanel.runAsDialog(firstNode,(JFrame)SwingUtilities.getWindowAncestor(editor));
+        EditNodePanel.runAsDialog(firstNode, (JFrame) SwingUtilities.getWindowAncestor(editor));
         editor.repaint(firstNode.getRectangle());
+    }
+
+    public void actionPerformedSpecific(Node node) {
+        EditNodePanel.runAsDialog(node, (JFrame) SwingUtilities.getWindowAncestor(editor));
+        editor.repaint(node.getRectangle());
     }
 
     @Override

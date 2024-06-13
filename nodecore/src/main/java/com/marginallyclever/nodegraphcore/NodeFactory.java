@@ -41,7 +41,15 @@ public class NodeFactory {
         System.out.println("Registering node " + typeFound.getName());
         verifyTypeNotRegistered(typeFound);
         verifyTypeConstructor(typeFound);
-        nodeRegistry.put(typeFound.getSimpleName(), typeFound);
+
+        try {
+            String name = (String) typeFound.getField("name").get(typeFound);
+            nodeRegistry.put(name, typeFound);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            nodeRegistry.put(typeFound.getSimpleName(), typeFound);
+        }
     }
 
     private static void verifyTypeNotRegistered(Class<?> typeFound) throws GraphException {

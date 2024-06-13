@@ -322,6 +322,7 @@ public class GraphViewPanel extends JPanel {
 
         paintAllDocks(g, n);
 
+
         g.setColor(NODE_COLOR_BORDER);
         paintNodeBorder(g, n);
     }
@@ -345,7 +346,12 @@ public class GraphViewPanel extends JPanel {
      */
     public void paintNodeTitleBar(Graphics g, Node n) {
         Rectangle r = n.getRectangle();
-        g.setColor(NODE_COLOR_TITLE_BACKGROUND);
+
+        if (n.isFirst()) {
+            g.setColor(Color.RED);
+        } else {
+            g.setColor(NODE_COLOR_TITLE_BACKGROUND);
+        }
         g.fillRoundRect(r.x, r.y, r.width, CORNER_RADIUS * 2, CORNER_RADIUS, CORNER_RADIUS);
         g.fillRect(r.x, r.y + CORNER_RADIUS, r.width + 1, Node.TITLE_HEIGHT - CORNER_RADIUS);
 

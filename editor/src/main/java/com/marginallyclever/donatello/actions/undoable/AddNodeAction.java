@@ -5,6 +5,7 @@ import com.marginallyclever.donatello.Donatello;
 import com.marginallyclever.donatello.edits.NodeAddEdit;
 import com.marginallyclever.nodegraphcore.Graph;
 import com.marginallyclever.nodegraphcore.Node;
+import com.marginallyclever.nodegraphcore.nodes.custom.NodeType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,8 +41,16 @@ public class AddNodeAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         Node n = AddNodePanel.runAsDialog((JFrame) SwingUtilities.getWindowAncestor(editor), getValue(Action.NAME).toString(), nodes);
         if (n != null) {
+            ifFirstAddGoal(n);
             n.setPosition(editor.getPaintArea().transformMousePoint(editor.getPopupPoint()));
             editor.addEdit(new NodeAddEdit((String) this.getValue(Action.NAME), editor, n));
+        }
+    }
+
+    private void ifFirstAddGoal(Node node) {
+        String string = this.getValue(Action.NAME).toString();
+        if (string.equals("Add Goal") && editor.getGraph().getNodes().stream().noneMatch(n -> n.getLabel().equals(NodeType.GOAL.getName()))) {
+            node.setFirst(true);
         }
     }
 }

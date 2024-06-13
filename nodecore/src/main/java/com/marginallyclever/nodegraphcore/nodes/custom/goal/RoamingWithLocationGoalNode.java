@@ -12,4 +12,8 @@ public class RoamingWithLocationGoalNode extends BaseGoalNode {
         super(name);
         addVariable(c);
     }
+
+    public FourNumberArray getValue() {
+        return c.getValue();
+    }
 }

@@ -31,8 +31,10 @@ public abstract class Node {
     private final Rectangle rectangle = new Rectangle(0, 0, 150, 50);
 
     private final List<Dock<?>> variables = new ArrayList<>();
-    
+
     private final Map<String, Object> context = new HashMap<>();
+
+    private boolean first = false;
 
     /**
      * Default constructor
@@ -257,6 +259,14 @@ public abstract class Node {
         rectangle.y += dy;
     }
 
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
+
+    public boolean isFirst() {
+        return first;
+    }
+
     public JSONObject toJSON() throws JSONException {
         JSONObject jo = new JSONObject();
         jo.put("name", name);
@@ -265,6 +275,7 @@ public abstract class Node {
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
         jo.put("variables", getAllVariablesAsJSON());
+        jo.put("first", dao.toJSON(first));
         return jo;
     }
 
@@ -290,6 +301,7 @@ public abstract class Node {
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
         parseAllVariablesFromJSON(jo.getJSONArray("variables"));
+        first = jo.getBoolean("first");
     }
 
     private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {

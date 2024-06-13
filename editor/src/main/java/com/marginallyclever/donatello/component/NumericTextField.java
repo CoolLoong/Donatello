@@ -46,16 +46,9 @@ public class NumericTextField extends JTextField {
         frame.setSize(300, 100);
         frame.setLayout(new FlowLayout());
 
-        JLabel label = new JLabel("坐标: ");
-        frame.add(label);
-
         NumericTextField xField = new NumericTextField(5);
-        NumericTextField yField = new NumericTextField(5);
-        NumericTextField zField = new NumericTextField(5);
 
         frame.add(xField);
-        frame.add(yField);
-        frame.add(zField);
 
         frame.setVisible(true);
     }

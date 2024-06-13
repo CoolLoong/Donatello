@@ -1,9 +1,6 @@
 package com.marginallyclever.donatello;
 
-import com.marginallyclever.donatello.component.FourNumberGroupPanel;
-import com.marginallyclever.donatello.component.FourNumberInputPanel;
-import com.marginallyclever.donatello.component.ThreeNumberGroupPanel;
-import com.marginallyclever.donatello.component.ThreeNumberInputPanel;
+import com.marginallyclever.donatello.component.*;
 import com.marginallyclever.nodegraphcore.Dock;
 import com.marginallyclever.nodegraphcore.DockReceiving;
 import com.marginallyclever.nodegraphcore.DockValue;
@@ -71,7 +68,7 @@ public class EditNodePanel extends JPanel {
     private void addVariableField(Dock<?> variable, GridBagConstraints c) {
         if (variable instanceof DockReceiving || variable instanceof DockValue) {
             if (Number.class.isAssignableFrom(variable.getTypeClass())) {
-                addTextField(variable, c);
+                addNumber(variable, c);
             } else if (variable.getTypeClass().equals(String.class)) {
                 addTextField(variable, c);
             } else if (variable.getTypeClass().equals(Boolean.class)) {
@@ -104,6 +101,21 @@ public class EditNodePanel extends JPanel {
         Object v = variable.getValue();
         String output = v == null ? "" : v.toString();
         JTextField textField = new JTextField(output);
+        fields.add(textField);
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx = 1;
+        this.add(textField, c);
+    }
+
+    private void addNumber(Dock<?> variable, GridBagConstraints c) {
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx = 0;
+        this.add(new JLabel(variable.getName()), c);
+
+        Object v = variable.getValue();
+        String output = v == null ? "" : v.toString();
+        NumericTextField textField = new NumericTextField(5);
+        textField.setText(output);
         fields.add(textField);
         c.anchor = GridBagConstraints.LINE_END;
         c.gridx = 1;
@@ -238,8 +250,8 @@ public class EditNodePanel extends JPanel {
         for (int i = 0; i < subject.getNumVariables(); ++i) {
             Dock<?> variable = subject.getVariable(i);
             if (variable instanceof DockReceiving || variable instanceof DockValue) {
-                if (variable.getTypeClass().equals(Number.class)) {
-                    panel.readTextField(j++, variable);
+                if (Number.class.isAssignableFrom(variable.getTypeClass())) {
+                    panel.readNumber(j++, variable);
                 } else if (variable.getTypeClass().equals(String.class)) {
                     panel.readTextField(j++, variable);
                 } else if (variable.getTypeClass().equals(Boolean.class)) {
@@ -280,6 +292,14 @@ public class EditNodePanel extends JPanel {
             fourNumberArray.get().add(fourNumber);
         }
         variable.setValue(fourNumberArray);
+    }
+
+    private void readNumber(int index, Dock<?> variable) {
+        NumericTextField f = (NumericTextField) fields.get(index);
+        if (f == null) {
+            return;
+        }
+        variable.setValue(Double.parseDouble(f.getText()));
     }
 
     private void readTextField(int index, Dock<?> variable) {

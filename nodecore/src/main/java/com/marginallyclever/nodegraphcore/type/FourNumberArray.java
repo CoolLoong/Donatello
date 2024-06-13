@@ -17,4 +17,11 @@ public class FourNumberArray {
     public boolean isEmpty() {
         return v.isEmpty();
     }
+
+    @Override
+    public String toString() {
+        return "FourNumberArray{" +
+                "v=" + v +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package com.marginallyclever.nodegraphcore;
 
 import com.marginallyclever.nodegraphcore.json.*;
+import com.marginallyclever.nodegraphcore.type.FourNumberArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,5 +42,7 @@ public class BuiltInRegistry implements NodeRegistry, DAORegistry {
         DAO4JSONFactory.registerDAO(Number.class, new NumberDAO4JSON());
         DAO4JSONFactory.registerDAO(Boolean.class, new BooleanDAO4JSON());
         DAO4JSONFactory.registerDAO(Object.class, new ObjectDAO4JSON());
+        DAO4JSONFactory.registerDAO(Void.TYPE, new VoidDAO4JSON());
+        DAO4JSONFactory.registerDAO(FourNumberArray.class, new FourNumberArrayDAO4JSON());
     }
 }

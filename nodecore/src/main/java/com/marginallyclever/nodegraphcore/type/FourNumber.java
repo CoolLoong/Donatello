@@ -59,4 +59,14 @@ public class FourNumber {
     public int hashCode() {
         return Objects.hash(x, y, z, w);
     }
+
+    @Override
+    public String toString() {
+        return "FourNumber{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                ", w=" + w +
+                '}';
+    }
 }

@@ -28,7 +28,7 @@ public class AddNodePanel extends JPanel implements SearchListener {
     /**
      * The database of names in the list model.
      */
-    private final List<String> names = Arrays.asList(NodeFactory.getNames());
+    private final List<String> nodes;
 
     /**
      * list model controls the contents of the list.  This is needed to add/remove as the search field is changed.
@@ -45,8 +45,9 @@ public class AddNodePanel extends JPanel implements SearchListener {
     /**
      * Constructor for subclasses to call.
      */
-    public AddNodePanel() {
+    public AddNodePanel(List<String> nodes) {
         super(new BorderLayout());
+        this.nodes = nodes;
 
         myList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -71,7 +72,7 @@ public class AddNodePanel extends JPanel implements SearchListener {
 
         listModel.clear();
 
-        for (String s : names) {
+        for (String s : nodes) {
             String t = (!regularExpression && caseSensitive) ? s : s.toLowerCase();
             boolean found = (regularExpression) ? t.matches(query) : t.contains(query);
             if (found) {
@@ -86,12 +87,12 @@ public class AddNodePanel extends JPanel implements SearchListener {
      * @param frame the parent frame.
      * @return the node created, or null.
      */
-    public static Node runAsDialog(Frame frame) {
-        JDialog dialog = new JDialog(frame, "Add Node", Dialog.ModalityType.DOCUMENT_MODAL);
+    public static Node runAsDialog(Frame frame, String title, List<String> nodes) {
+        JDialog dialog = new JDialog(frame, title, Dialog.ModalityType.DOCUMENT_MODAL);
 
         final AtomicReference<Node> result = new AtomicReference<>();
 
-        final AddNodePanel panel = new AddNodePanel();
+        final AddNodePanel panel = new AddNodePanel(nodes);
         panel.myList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -126,7 +127,7 @@ public class AddNodePanel extends JPanel implements SearchListener {
         JFrame frame = new JFrame(AddNodePanel.class.getSimpleName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.add(new AddNodePanel());
+        frame.add(new AddNodePanel(Arrays.asList(NodeFactory.getNames())));
         frame.pack();
         frame.setVisible(true);
     }

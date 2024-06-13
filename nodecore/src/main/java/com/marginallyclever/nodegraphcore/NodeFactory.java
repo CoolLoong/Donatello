@@ -39,22 +39,25 @@ public class NodeFactory {
     public static void registerNode(Class<? extends Node> typeFound) {
         logger.debug("Registering node {} ", typeFound.getName());
         System.out.println("Registering node " + typeFound.getName());
-        verifyTypeNotRegistered(typeFound);
-        verifyTypeConstructor(typeFound);
 
+        String nodeTypeName;
         try {
-            String name = (String) typeFound.getField("name").get(typeFound);
-            nodeRegistry.put(name, typeFound);
+            nodeTypeName = (String) typeFound.getField("name").get(typeFound);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (NoSuchFieldException e) {
-            nodeRegistry.put(typeFound.getSimpleName(), typeFound);
+            nodeTypeName = typeFound.getSimpleName();
         }
+
+        verifyTypeNotRegistered(nodeTypeName);
+        verifyTypeConstructor(typeFound);
+
+        nodeRegistry.put(nodeTypeName, typeFound);
     }
 
-    private static void verifyTypeNotRegistered(Class<?> typeFound) throws GraphException {
-        if (nodeRegistry.containsKey(typeFound.getSimpleName())) {
-            throw new GraphException("Cannot register two nodes with name " + typeFound.getName());
+    private static void verifyTypeNotRegistered(String nodeTypeName) throws GraphException {
+        if (nodeRegistry.containsKey(nodeTypeName)) {
+            throw new GraphException("Cannot register two nodes with name " + nodeTypeName);
         }
     }
 

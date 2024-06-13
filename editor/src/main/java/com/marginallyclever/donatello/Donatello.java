@@ -24,7 +24,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * {@link Donatello} is a Graphic User Interface to edit a {@link Graph}.
@@ -413,7 +415,10 @@ public class Donatello extends JPanel {
         PasteGraphAction pasteGraphAction = new PasteGraphAction("Paste", this);
         DeleteGraphAction deleteGraphAction = new DeleteGraphAction("Delete", this);
         CutGraphAction cutGraphAction = new CutGraphAction("Cut", deleteGraphAction, graphCopyAction);
-        AddNodeAction addNodeAction = new AddNodeAction("Add", this);
+        List<String> states = Arrays.stream(NodeFactory.getNames()).filter(n -> n.contains("状态")).collect(Collectors.toList());
+        List<String> goals = Arrays.stream(NodeFactory.getNames()).filter(s -> !states.contains(s)).collect(Collectors.toList());
+        AddNodeAction addGoalAction = new AddNodeAction("Add Goal", goals, this);
+        AddNodeAction addStateAction = new AddNodeAction("Add State", states, this);
         ForciblyUpdateNodesAction forciblyUpdateNodesAction = new ForciblyUpdateNodesAction("Force update", this);
         GraphFoldAction graphFoldAction = new GraphFoldAction("Fold", this, cutGraphAction);
         GraphUnfoldAction graphUnfoldAction = new GraphUnfoldAction("Unfold", this);
@@ -432,7 +437,8 @@ public class Donatello extends JPanel {
         pasteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("📎"));
         deleteGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗑"));
         cutGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✂"));
-        addNodeAction.putValue(Action.SMALL_ICON, new UnicodeIcon("➕"));
+        addGoalAction.putValue(Action.SMALL_ICON, new UnicodeIcon("➕"));
+        addStateAction.putValue(Action.SMALL_ICON, new UnicodeIcon("➕"));
         editNodeAction.putValue(Action.SMALL_ICON, new UnicodeIcon("✏"));
         forciblyUpdateNodesAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⏩"));
         graphFoldAction.putValue(Action.SMALL_ICON, new UnicodeIcon("⫏"));
@@ -449,7 +455,8 @@ public class Donatello extends JPanel {
         actions.add(pasteGraphAction);
         actions.add(deleteGraphAction);
         actions.add(cutGraphAction);
-        actions.add(addNodeAction);
+        actions.add(addGoalAction);
+        actions.add(addStateAction);
         actions.add(editNodeAction);
         actions.add(forciblyUpdateNodesAction);
         actions.add(graphFoldAction);
@@ -469,7 +476,7 @@ public class Donatello extends JPanel {
         pasteGraphAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK));
         deleteGraphAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         cutGraphAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK));
-        addNodeAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
+        addGoalAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK));
         editNodeAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
         graphFoldAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_BRACELEFT, KeyEvent.CTRL_DOWN_MASK));
         graphUnfoldAction.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_BRACERIGHT, KeyEvent.CTRL_DOWN_MASK));
@@ -494,7 +501,8 @@ public class Donatello extends JPanel {
         menu.add(pasteGraphAction);
         menu.add(deleteGraphAction);
         menu.addSeparator();
-        menu.add(addNodeAction);
+        menu.add(addGoalAction);
+        menu.add(addStateAction);
         menu.add(editNodeAction);
         menu.add(forciblyUpdateNodesAction);
         menu.addSeparator();
@@ -502,7 +510,8 @@ public class Donatello extends JPanel {
         menu.add(graphUnfoldAction);
         menu.add(isolateGraphAction);
 
-        popupBar.add(addNodeAction);
+        popupBar.add(addGoalAction);
+        popupBar.add(addStateAction);
         popupBar.add(editNodeAction);
         popupBar.add(forciblyUpdateNodesAction);
         popupBar.addSeparator();

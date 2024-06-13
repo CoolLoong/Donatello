@@ -9,7 +9,7 @@ public class RoamingWithLocationGoalNode extends BaseGoalNode {
     private final DockValue<FourNumberArray> c = new DockValue<>("坐标/速度", FourNumberArray.class, new FourNumberArray());
 
     public RoamingWithLocationGoalNode() {
-        super("周期坐标移动");
+        super(name);
         addVariable(c);
     }
 }

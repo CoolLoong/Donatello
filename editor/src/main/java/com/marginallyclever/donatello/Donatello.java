@@ -364,6 +364,9 @@ public class Donatello extends JPanel {
         GraphNewAction graphNewAction = new GraphNewAction("New", this);
         LoadGraphAction loadGraphAction = new LoadGraphAction("Load", this);
         GraphSaveAction graphSaveAction = new GraphSaveAction("Save", this);
+        //Export to the paste board
+        ImportPasteBoardAction importPasteBoardAction = new ImportPasteBoardAction("Import", this);
+        ExportPasteBoardAction exportPasteBoardAction = new ExportPasteBoardAction("Export", this);
         GraphPrintAction graphPrintAction = new GraphPrintAction("Print", this);
         GraphStraightenAction graphStraightenAction = new GraphStraightenAction("Straighten", this);
         GraphOrganizeAction graphOrganizeAction = new GraphOrganizeAction("Organize", this);
@@ -372,6 +375,8 @@ public class Donatello extends JPanel {
         loadGraphAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗁"));
         graphSaveAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🖫"));
         graphPrintAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🖶"));
+        importPasteBoardAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🗁"));
+        exportPasteBoardAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🖫"));
         graphStraightenAction.putValue(Action.SMALL_ICON, new UnicodeIcon("🧹"));
         graphStraightenAction.putValue(Action.SMALL_ICON, new UnicodeIcon("📐"));
         graphOrganizeAction.putValue(Action.SMALL_ICON, new UnicodeIcon("📝"));
@@ -381,6 +386,8 @@ public class Donatello extends JPanel {
         actions.add(graphNewAction);
         actions.add(graphSaveAction);
         actions.add(loadGraphAction);
+        actions.add(importPasteBoardAction);
+        actions.add(exportPasteBoardAction);
         actions.add(graphPrintAction);
         actions.add(graphStraightenAction);
         actions.add(graphOrganizeAction);
@@ -394,6 +401,8 @@ public class Donatello extends JPanel {
         menu.add(graphNewAction);
         menu.add(loadGraphAction);
         menu.add(graphSaveAction);
+        menu.add(importPasteBoardAction);
+        menu.add(exportPasteBoardAction);
         menu.addSeparator();
         menu.add(graphPrintAction);
         menu.add(graphStraightenAction);
@@ -584,6 +593,10 @@ public class Donatello extends JPanel {
                 }
             }
         });
+    }
+
+    public void setSpecificStatusBarText(String s) {
+        statusBar.setText(s);
     }
 
     private void setStatusBar(Point transformMousePoint) {

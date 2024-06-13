@@ -275,7 +275,7 @@ public abstract class Node {
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
         jo.put("variables", getAllVariablesAsJSON());
-        jo.put("first", dao.toJSON(first));
+        jo.put("first", first);
         return jo;
     }
 

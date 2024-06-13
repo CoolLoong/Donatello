@@ -31,7 +31,8 @@ public abstract class Node {
     private final Rectangle rectangle = new Rectangle(0, 0, 150, 50);
 
     private final List<Dock<?>> variables = new ArrayList<>();
-    private final Map<String, String> metadata = new HashMap<>();
+    
+    private final Map<String, Object> context = new HashMap<>();
 
     /**
      * Default constructor
@@ -160,8 +161,8 @@ public abstract class Node {
         return variables.size();
     }
 
-    public Map<String, String> getMetadata() {
-        return metadata;
+    public Map<String, Object> getContext() {
+        return context;
     }
 
     /**
@@ -264,7 +265,6 @@ public abstract class Node {
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         jo.put("rectangle", dao.toJSON(rectangle));
         jo.put("variables", getAllVariablesAsJSON());
-        jo.put("metadata", new JSONObject(metadata));
         return jo;
     }
 
@@ -290,7 +290,6 @@ public abstract class Node {
         RectangleDAO4JSON dao = new RectangleDAO4JSON();
         rectangle.setBounds(dao.fromJSON(jo.getJSONObject("rectangle")));
         parseAllVariablesFromJSON(jo.getJSONArray("variables"));
-        jo.getJSONObject("metadata").toMap().forEach((k, v) -> this.metadata.put(k, v.toString()));
     }
 
     private void parseAllVariablesFromJSON(JSONArray vars) throws JSONException {

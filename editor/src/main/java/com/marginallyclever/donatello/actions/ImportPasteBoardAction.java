@@ -48,7 +48,7 @@ public class ImportPasteBoardAction extends AbstractAction {
                     newModel.parseJSON(new JSONObject(json));
                     editor.addEdit(new GraphPasteEdit((String) this.getValue(Action.NAME), editor, newModel));
                     editor.setSpecificStatusBarText("成功导入图数据从粘贴板!");
-                } catch (IllegalArgumentException e1) {
+                } catch (Throwable e1) {
                     JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(editor), e1.getLocalizedMessage());
                 }
             } catch (UnsupportedFlavorException ex) {
